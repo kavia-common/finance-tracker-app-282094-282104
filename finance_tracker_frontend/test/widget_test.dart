@@ -3,16 +3,11 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:finance_tracker_frontend/main.dart';
 
 void main() {
-  testWidgets('App generation message displayed', (WidgetTester tester) async {
-    await tester.pumpWidget(const MyApp());
-
-    expect(find.text('finance_tracker_frontend App is being generated...'), findsOneWidget);
-    expect(find.byType(CircularProgressIndicator), findsOneWidget);
-  });
-
-  testWidgets('App bar has correct title', (WidgetTester tester) async {
-    await tester.pumpWidget(const MyApp());
-
-    expect(find.text('finance_tracker_frontend'), findsOneWidget);
+  testWidgets('App loads login or home without crashing', (WidgetTester tester) async {
+    WidgetsFlutterBinding.ensureInitialized();
+    await tester.pumpWidget(const FinanceTrackerApp());
+    await tester.pump(const Duration(milliseconds: 100));
+    // We expect either a login form or some scaffold to be present.
+    expect(find.byType(Scaffold), findsWidgets);
   });
 }
